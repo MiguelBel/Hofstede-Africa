@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title>Hofstede analysis for Africa</title>
+
+  <!-- Maps of IND -->
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load("visualization", "1", {packages:["geochart"]});
+    <% an.getArrayIndexes.each do |hoef_index| %>
+      google.setOnLoadCallback(drawRegionsMap<%= hoef_index %>);
+
+      function drawRegionsMap<%= hoef_index %>() {
+
+        var data = google.visualization.arrayToDataTable(
+          <%= an.getDataForMapPlotting(hoef_index).to_json %>
+        );
+
+        var options = {};
+        options['region'] = '002';
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div_<%= hoef_index %>'));
+
+        chart.draw(data, options);
+      }
+    <% end %>
+  </script>
+
+  <style type="text/css">
+    body{
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Max And Min Values</h1>
+  <div align="center">
+    <table border="3">
+      <thead>
+        <tr>
+          <td>Index</td>
+          <td>Value</td>
+          <td>Country</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% max_and_min_values.each do |values| %>
+          <tr>
+            <td>Max <%= values[0] %></td>
+            <td><%= values[1][0] %></td>
+            <td><%= values[1][1] %></td>
+        <% end %>
+      </tbody>
+    </table>
+    <table border="3">
+      <thead>
+        <tr>
+          <td>Index</td>
+          <td>Value</td>
+          <td>Country</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% max_and_min_values.each do |values| %>
+          <tr>
+            <td>Min <%= values[0] %></td>
+            <td><%= values[2][0] %></td>
+            <td><%= values[2][1] %></td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <h1>Alphabetic ordering</h1>
+  <% alphabetic_ordering.each do |link| %>
+    <img src="<%= link %>">
+  <% end %>
+
+  <h1>North-south ordering</h1>
+  <% all_north_south_plots_links.each do |link| %>
+    <img src="<%= link %>">
+  <% end %>
+
+  <h1>Geo plotting</h1>
+  <% an.getArrayIndexes.each do |hoef_index| %>
+    <center>
+      <h4><%= hoef_index.upcase %></h4>
+      <div id="regions_div_<%= hoef_index %>" style="width: 900px; height: 500px;"></div>
+    </center>
+  <% end %>
+</body>
+</html>
