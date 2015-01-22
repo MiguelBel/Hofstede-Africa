@@ -2,8 +2,8 @@
 
 Visualization of the data provided by [Hofstede Centre](http://geert-hofstede.com/)
 
-Instruction:
+Instructions:
 
--Clone
--Do bundle install
--Rackup
+* Clone
+* Do bundle install
+* Rackup
